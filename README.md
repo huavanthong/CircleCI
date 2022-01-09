@@ -88,7 +88,7 @@ This is a naive solution, but probably enough to start with.
 * Development with Go and Docker https://medium.com/developers-writing/docker-powered-development-environment-for-your-go-app-6185d043ea35
 
 ## Issue knowledge
-1. strings.Builder type undefined  
+1. Fix issue related to Golang version: strings.Builder type undefined  
 ##### Problem  
 ```
 $ docker build -t hello-golang .
@@ -119,7 +119,7 @@ RUN apk add --no-cache git
 ##### Refer:  
       https://stackoverflow.com/questions/48978414/golang-strings-builder-type-undefined  
 
-2. strings.Builder type undefined  
+2. Fix issue related to GIN library. 
 ##### Problem  
 ```
 $ docker build -t hello-golang .
@@ -154,3 +154,30 @@ RUN go get github.com/kisielk/errcheck \
 ```
 ##### Refer:  
     https://github.com/codegangsta/gin/issues/169
+
+3. Fix issue related to run command on Docker virtual machine.
+##### Problem  
+```
+$ docker build -t hello-golang .
+
+=> ERROR [6/7] RUN go-wrapper download # "go get -d -v ./..."
+------
+ > [6/7] RUN go-wrapper download # "go get -d -v ./...":
+#11 0.328 /bin/sh: go-wrapper: not found
+------
+executor failed running [/bin/sh -c go-wrapper download # "go get -d -v ./..."]: exit code: 127
+
+```
+##### Solution
+```
+Before: 
+RUN go-wrapper download # "go get -d -v ./..."
+RUN go-wrapper install # "go install -v ./..."
+
+After:
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+```
+##### Refer:  
+    https://github.com/whalebrew/whalebrew/commit/2495345eadd7b1860a3557c81f203619d9b84ea8
