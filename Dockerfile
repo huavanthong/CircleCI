@@ -1,5 +1,5 @@
 # consider using alpine-version in production, it's a lightweight distro
-FROM golang:1.9-alpine
+FROM golang:1.15
 
 # since we're on alpine, we need to install what we need
 RUN apk add --no-cache git
