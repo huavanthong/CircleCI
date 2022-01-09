@@ -88,10 +88,11 @@ This is a naive solution, but probably enough to start with.
 * Development with Go and Docker https://medium.com/developers-writing/docker-powered-development-environment-for-your-go-app-6185d043ea35
 
 ## Issue knowledge
-1. strings.Builder type undefined
-Problem  
+1. strings.Builder type undefined  
+##### Problem  
 ```
 $ docker build -t hello-golang .
+
 => Error:
  > [3/7] RUN go get github.com/codegangsta/gin:
 #7 10.17 # github.com/urfave/cli
@@ -100,13 +101,56 @@ $ docker build -t hello-golang .
 #7 10.17 src/github.com/urfave/cli/fish.go:160:45: undefined: strings.Builder
 
 ```
-Solution
+##### Solution
 ```
 Because golang version is old, Dockerfile define that:
 $ FROM golang:1.9-alpine
 To fix it, change golang to new version:
-$ FROM golang:1.15
+$ FROM golang:1.15-alpine
 
 ```
-Refer:  
-      https://stackoverflow.com/questions/48978414/golang-strings-builder-type-undefined
+##### Note:
+alpine is a feature to caching memory.  
+To use it, it is used by command in Dockerfile
+``` 
+RUN apk add --no-cache git
+
+```
+##### Refer:  
+      https://stackoverflow.com/questions/48978414/golang-strings-builder-type-undefined  
+
+2. strings.Builder type undefined  
+##### Problem  
+```
+$ docker build -t hello-golang .
+
+=> [1/7] FROM docker.io/library/golang:1.15-alpine@sha256:b58c367d52e46cdedc25ec9cd74cadb14ad65e8db75b25e5ec117c  0.0s
+=> CACHED [2/7] RUN apk add --no-cache git                                                                        0.0s
+=> ERROR [3/7] RUN go get github.com/codegangsta/gin                                                             13.0s
+------
+ > [3/7] RUN go get github.com/codegangsta/gin:
+#6 12.99 # github.com/codegangsta/gin
+#6 12.99 src/github.com/codegangsta/gin/main.go:40:13: cannot use MainAction (type func(*cli.Context)) as type cli.ActionFunc in assignment
+#6 12.99 src/github.com/codegangsta/gin/main.go:42:17: cannot use cli.StringFlag literal (type cli.StringFlag) as type cli.Flag in slice literal:
+#6 12.99        cli.StringFlag does not implement cli.Flag (Apply method has pointer receiver)
+
+```
+##### Solution
+Because we are using codegangta library from github: https://github.com/codegangsta/gin
+It always changing content of source code, unfortunately, it happened this error.  
+Therefore, I must following issue on that repository, and we find this issue following info below
+```
+Before: 
+# Gin for code reloading
+RUN go get github.com/codegangsta/gin
+
+After:
+# Gin for code reloading
+RUN go get github.com/kisielk/errcheck \
+    && go get golang.org/x/lint/golint \
+    && go get github.com/stripe/safesql \
+    && GO111MODULE=on go get github.com/gobuffalo/buffalo/buffalo@v0.15.1
+
+```
+##### Refer:  
+    https://github.com/codegangsta/gin/issues/169
