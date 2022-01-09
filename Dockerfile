@@ -14,8 +14,8 @@ RUN go get github.com/kisielk/errcheck \
 WORKDIR /go/src/app
 COPY . .
 
-RUN go-wrapper download # "go get -d -v ./..."
-RUN go-wrapper install # "go install -v ./..."
+RUN go get -d -v ./...
+RUN go install -v ./...
 
 # Gin assumes PORT environment var is set
 ENV PORT 8080
