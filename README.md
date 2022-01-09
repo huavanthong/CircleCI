@@ -6,20 +6,20 @@ Build status: [![CircleCI](https://circleci.com/gh/halla/golang-docker-circleci-
 
 ## Core Todo
 
-* ~~Docker hello world~~
-* ~~Hello http server~~
-* ~~Unit test case~~
-* ~~Development workflow with code reload/compile~~
-* ~~Make a HTTP-request~~
-* ~~Parse JSON~~
-* ~~CircleCI integration~~
-* ~~Production deployment~~
-* ~~Contiuous deployment~~
+* Docker hello world  
+* Hello http server  
+* Unit test case  
+* Development workflow with code reload/compile  
+* Make a HTTP-request  
+* Parse JSON  
+* CircleCI integration  
+* Production deployment  
+* Contiuous deployment  
 
 ## More Todo
-* ~~Use a goroutine~~
-* ~~Use a channel~~
-* ~~Use an HTML template~~
+* Use a goroutine  
+* Use a channel  
+* Use an HTML template  
 * Serve static files
 * docker-compose.yml
 
@@ -86,3 +86,27 @@ This is a naive solution, but probably enough to start with.
 
 * Install Docker on Ubuntu 16.04 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
 * Development with Go and Docker https://medium.com/developers-writing/docker-powered-development-environment-for-your-go-app-6185d043ea35
+
+## Issue knowledge
+1. strings.Builder type undefined
+Problem  
+```
+$ docker build -t hello-golang .
+=> Error:
+ > [3/7] RUN go get github.com/codegangsta/gin:
+#7 10.17 # github.com/urfave/cli
+#7 10.17 src/github.com/urfave/cli/fish.go:74:18: undefined: strings.Builder
+#7 10.17 src/github.com/urfave/cli/fish.go:123:18: undefined: strings.Builder
+#7 10.17 src/github.com/urfave/cli/fish.go:160:45: undefined: strings.Builder
+
+```
+Solution
+```
+Because golang version is old, Dockerfile define that:
+$ FROM golang:1.9-alpine
+To fix it, change golang to new version:
+$ FROM golang:1.15
+
+```
+Refer:  
+      https://stackoverflow.com/questions/48978414/golang-strings-builder-type-undefined
