@@ -2,7 +2,11 @@ Example project to get the hang of the Go language, Docker containers, continuou
 
 This is built on Ubuntu Xenial (16.04). On Windows/Mac some tweaks probably needed.
 
-Build status: [![CircleCI](https://circleci.com/gh/halla/golang-docker-circleci-example/tree/master.svg?style=svg)](https://circleci.com/gh/halla/golang-docker-circleci-example/tree/master)
+Build status: [![CircleCI](https://app.circleci.com/pipelines/github/huavanthong/CircleCI?branch=master&filter=all)](https://github.com/huavanthong/CircleCI/tree/master)
+
+## Origin source 
+Refer:  
+https://github.com/halla/golang-docker-circleci-example
 
 ## Core Todo
 
