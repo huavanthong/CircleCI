@@ -11,7 +11,23 @@ on:
       - opened
       - synchronize
     branches: [ "master" ]
+    
+  workflow_dispatch:
+     inputs:
+      workflow_02:
+        description: 'ًWorkflow 2 which will be triggered'
+        required: true
+        default: 'workflow_02'
 
+      workflow2_github_account:
+        description: 'GitHub Account Owner'
+        required: true
+        default: 'huavanthong'
+
+      workflow2_repo_github:
+        description: 'GitHub Repository Name'
+        required: true
+        default: 'microservice-golang' 
 jobs:
 
   build:
