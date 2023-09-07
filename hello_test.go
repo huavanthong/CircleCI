@@ -34,11 +34,11 @@ func TestMessageLackOfName(t *testing.T) {
 
 func TestMessageWithSpecialCharacters(t *testing.T) {
 	project := new(Project)
-	project.PushedAt = "now@@@#!!'''"
+	project.PushedAt = "now@@@#!!'''11"
 	project.Name = "TestProject!@#$%^&*()'@''"
 
 	msg := Message(project)
-	if msg != "<p>TestProject!@#$%^&*()'@'': Latest commit: now@@@#!!'''</p>" {
+	if msg != "<p>TestProject!@#$%^&*()'@'': Latest commit: now@@@#!!'''11</p>" {
 		t.Errorf("Incorrect message: %s", msg)
 	}
 }
