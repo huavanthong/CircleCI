@@ -9,6 +9,8 @@ on:
   pull_request:
     types:
       - closed
+      - opened
+      - synchronize
     branches: [ "master" ]
     
   workflow_dispatch:
@@ -52,6 +54,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Test
         run: |
+          echo "GitHub Repository: $GITHUB_REPOSITORY"
+          echo "Branch pull-request: ${{ github.event.pull_request.base.ref }}"
+          # Lấy giá trị của GITHUB_REF
+          PR_BRANCH=${{ github.ref }}
+          
+          # Trích xuất tên nhánh từ biến GITHUB_REF
+          PR_BRANCH=${PR_BRANCH#refs/heads/}
+          
+          echo "Pull Request Branch: $PR_BRANCH"
           curl -X POST https://api.github.com/repos/huavanthong/microservice-golang/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACTIONS_KEY }} \
