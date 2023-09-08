@@ -63,9 +63,10 @@ jobs:
           
           echo "Pull Request Branch: $PR_BRANCH"
 
-          echo "Pull Request Branch from variable github: ${{ github.head_ref }}"
+          TARGET_BRANCH=${{ github.head_ref }}
+          echo "Pull Request Branch from variable github: $TARGEt_BRANCH"
           curl -X POST https://api.github.com/repos/huavanthong/microservice-golang/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACTIONS_KEY }} \
-          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "branch" : "'"$PR_BRANCH"'", "pull-branch": "'"$TARGET_BRANCH"'" }}'
       - uses: actions/checkout@v3
