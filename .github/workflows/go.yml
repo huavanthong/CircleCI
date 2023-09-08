@@ -56,14 +56,14 @@ jobs:
         run: |
           echo "GitHub Repository: $GITHUB_REPOSITORY"
           # Lấy giá trị của GITHUB_REF
-          PR_BRANCH=${{ github.ref }}
+          PR_BRANCH="${{ github.ref }}"
           
           # Trích xuất tên nhánh từ biến GITHUB_REF
           PR_BRANCH=${PR_BRANCH#refs/heads/}
           
           echo "Pull Request Branch: $PR_BRANCH"
 
-          TARGET_BRANCH=${{ github.head_ref }}
+          TARGET_BRANCH="${{ github.head_ref }}"
           echo "Pull Request Branch from variable github: $TARGEt_BRANCH"
           curl -X POST https://api.github.com/repos/huavanthong/microservice-golang/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
