@@ -63,6 +63,7 @@ jobs:
           
           echo "Pull Request Branch: $PR_BRANCH"
 
+          # Lấy giá trị của nhánh tạo pull request
           TARGET_BRANCH="${{ github.head_ref }}"
           echo "Pull Request Branch from variable github: $TARGEt_BRANCH"
           curl -X POST https://api.github.com/repos/huavanthong/microservice-golang/dispatches \
