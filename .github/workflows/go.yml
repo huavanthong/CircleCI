@@ -52,17 +52,6 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    # - name: Collect log 
-    #   run: |
-    #     echo "Current runner id: $CURRENT_RUNNER_ID"
-    #     gh run view $CURRENT_RUNNER_ID --log > console_log.txt
-
-    # - name: Upload built package
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: upload log artifacts
-    #     path: console_log.txt
-
     - name: Build with logs
       run: |
         mkdir ${{ runner.temp }}/build_logs
@@ -99,3 +88,19 @@ jobs:
           -u ${{ secrets.ACTIONS_KEY }} \
           --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "branch" : "'"$PR_BRANCH"'", "pull-branch": "'"$TARGET_BRANCH"'" }}'
       - uses: actions/checkout@v3
+
+  collect-log:
+    name: Collect console log
+    runs-on: ubuntu-latest
+    needs: build  
+    steps:
+    - name: Collect log 
+      run: |
+        echo "Current runner id: $CURRENT_RUNNER_ID"
+        gh run view $CURRENT_RUNNER_ID --log > console_log.txt
+
+    - name: Upload built package
+      uses: actions/upload-artifact@v3
+      with:
+        name: upload log artifacts
+        path: console_log.txt
