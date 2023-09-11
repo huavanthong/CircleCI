@@ -89,8 +89,8 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/OWNER/REPO/dispatches \
-            -d '{"event_type":"on-demand-test","client_payload":{"repository": "'"$GITHUB_REPOSITORY"'", "branch" : "'"$PR_BRANCH"'", "pull-branch": "'"$TARGET_BRANCH"'" }}'
+            https://api.github.com/repos/huavanthong/microservice-golang/dispatches \
+            -d '{"event_type":"Trigger Workflow","client_payload":{"repository": "'"$GITHUB_REPOSITORY"'", "branch" : "'"$PR_BRANCH"'", "pull-branch": "'"$TARGET_BRANCH"'" }}'
 
           # curl -X POST https://api.github.com/repos/huavanthong/microservice-golang/dispatches \
           # --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
