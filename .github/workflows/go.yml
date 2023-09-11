@@ -32,6 +32,7 @@ on:
 
 env:
   CURRENT_RUNNER_ID: ${{ github.run_id }}
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
 
