@@ -52,16 +52,16 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - name: Collect log 
-      run: |
-        echo "Current runner id: $CURRENT_RUNNER_ID"
-        gh run view $CURRENT_RUNNER_ID --log > console_log.txt
+    # - name: Collect log 
+    #   run: |
+    #     echo "Current runner id: $CURRENT_RUNNER_ID"
+    #     gh run view $CURRENT_RUNNER_ID --log > console_log.txt
 
-    - name: Upload built package
-      uses: actions/upload-artifact@v3
-      with:
-        name: upload log artifacts
-        path: console_log.txt
+    # - name: Upload built package
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: upload log artifacts
+    #     path: console_log.txt
 
     - name: Build with logs
       run: |
