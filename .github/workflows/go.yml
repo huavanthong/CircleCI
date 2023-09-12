@@ -77,7 +77,6 @@ jobs:
           
           # Trích xuất tên nhánh từ biến GITHUB_REF
           PR_BRANCH=${PR_BRANCH#refs/heads/}
-          
           echo "Pull Request Branch: $PR_BRANCH"
 
           # Lấy giá trị của nhánh tạo pull request
