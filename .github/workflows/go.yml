@@ -144,6 +144,15 @@ jobs:
           # Print the pipeline details
           echo "$PIPELINE"
 
+      - name: Create comment on PR
+        run: |
+          pipeline_result="PASS"
+          # Sử dụng GitHub API để tạo bình luận
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+          -d '{"body": "Kết quả của pipeline A: '"$pipeline_result"'"}' \
+          "https://api.github.com/repos/${{ github.repository }}/issues/pull/9/comments"
+
+
       - name: Fetch Pipeline from Another Repository
         run: |
           sleep 180
