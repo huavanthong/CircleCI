@@ -66,7 +66,6 @@ jobs:
 
   trigger-build-aio:
     runs-on: ubuntu-latest
-
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Test
@@ -98,7 +97,7 @@ jobs:
 
   check-pipeline:
     runs-on: ubuntu-latest
-
+    needs: trigger-build-aio
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
