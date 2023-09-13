@@ -146,6 +146,7 @@ jobs:
 
       - name: Fetch Pipeline from Another Repository
         run: |
+          sleep 180
           # Set up your GitHub Personal Access Token (PAT)
           GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
       
@@ -159,7 +160,7 @@ jobs:
             jq -r ".workflow_runs[] | select(.head_branch == \"$BRANCH\").id")
 
           echo "Runner ID is $RUN_ID"
-          sleep 180
+          
           echo "Sleep"
           if [ -n "$RUN_ID" ]; then
             # Fetch the details of the workflow run
