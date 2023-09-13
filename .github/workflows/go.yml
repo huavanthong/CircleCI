@@ -96,6 +96,40 @@ jobs:
           -H 'Accept: application/vnd.github.everest-preview+json' \
           --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "branch" : "'"$TARGET_BRANCH"'", "pull-branch": "'"$TARGET_BRANCH"'" }}'
 
+  check-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install GitHub CLI
+        run: |
+          # Cài đặt GitHub CLI
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
+          sudo apt-get update
+          sudo apt-get install gh
+
+      - name: Get Pipeline Status
+        id: pipeline
+        run: |
+          # Lấy thông tin pipeline
+          gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .status' > pipeline_status.txt
+
+      - name: Check Pipeline Status
+        run: |
+          # Đọc kết quả pipeline từ file
+          pipeline_status=$(cat pipeline_status.txt)
+
+          # Kiểm tra kết quả pipeline và báo cáo
+          if [[ "$pipeline_status" == "completed" ]]; then
+            echo "Pipeline is completed."
+          else
+            echo "Pipeline is not completed."
+            # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
+          fi
+          
   collect-log:
     name: Collect console log
     runs-on: ubuntu-latest
