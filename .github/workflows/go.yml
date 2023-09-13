@@ -159,7 +159,8 @@ jobs:
             jq -r ".workflow_runs[] | select(.head_branch == \"$BRANCH\").id")
 
           echo "Runner ID is $RUN_ID"
-
+          sleep 180
+          echo "Sleep"
           if [ -n "$RUN_ID" ]; then
             # Fetch the details of the workflow run
             PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
