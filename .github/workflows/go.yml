@@ -111,6 +111,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install gh
 
+      - name: Wait for Pipeline Completion
+        id: wait-for-pipeline
+        run: |
+          # Lấy thông tin pipeline
+          while [[ "$(gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .status')" != "completed" ]]; do
+            sleep 60  # Chờ 60 giây trước khi kiểm tra lại
+          done
+          
       - name: Get Pipeline Status
         id: pipeline
         run: |
@@ -129,7 +137,7 @@ jobs:
             echo "Pipeline is not completed."
             # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
           fi
-          
+
   collect-log:
     name: Collect console log
     runs-on: ubuntu-latest
