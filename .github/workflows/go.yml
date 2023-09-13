@@ -118,12 +118,12 @@ jobs:
           while [[ "$(gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .status')" != "completed" ]]; do
             sleep 60  # Chờ 60 giây trước khi kiểm tra lại
           done
-          
-      - name: Get Pipeline Status
+
+      - name: Get Pipeline Result
         id: pipeline
         run: |
           # Lấy thông tin pipeline
-          gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .status' > pipeline_status.txt
+          gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .conclusion' > pipeline_status.txt
 
       - name: Check Pipeline Status
         run: |
@@ -131,11 +131,12 @@ jobs:
           pipeline_status=$(cat pipeline_status.txt)
 
           # Kiểm tra kết quả pipeline và báo cáo
-          if [[ "$pipeline_status" == "completed" ]]; then
-            echo "Pipeline is completed."
+          if [[ "$pipeline_status" == "success" ]]; then
+            echo "Pipeline RobotFramework AIO success."
           else
-            echo "Pipeline is not completed."
+            echo "Pipeline is not succeed."
             # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
+            exit 1
           fi
 
   collect-log:
