@@ -131,14 +131,40 @@ jobs:
 
           # Get the GitHub Run ID for the current workflow run
           RUN_ID=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
-            "https://api.github.com/repos/huavanthong/microservice-golang/actions/runs" | \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs" | \
             jq -r '.workflow_runs[0].id')
           
           echo $RUN_ID
   
           # Fetch the workflow run details
           PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
-            "https://api.github.com/repos/huavanthong/microservice-golang/actions/runs/$RUN_ID")
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID")
   
           # Print the pipeline details
           echo "$PIPELINE"
+
+      - name: Fetch Pipeline from Another Repository
+        run: |
+          # Set up your GitHub Personal Access Token (PAT)
+          GH_TOKEN=${{ secrets.GITHUB_TOKEN }}
+      
+          # Define the target repository and branch
+          TARGET_REPO="huavanthong/microservice-golang"
+          BRANCH="master"  # Replace with the branch name you want to fetch the pipeline from
+      
+          # Get the GitHub Run ID for the workflow run of the target repository
+          RUN_ID=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/$TARGET_REPO/actions/runs" | \
+            jq -r ".workflow_runs[] | select(.head_branch == \"$BRANCH\").id")
+      
+          if [ -n "$RUN_ID" ]; then
+            # Fetch the details of the workflow run
+            PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN" \
+              "https://api.github.com/repos/$TARGET_REPO/actions/runs/$RUN_ID")
+      
+            # Print the pipeline details
+            echo "$PIPELINE"
+          else
+            echo "No workflow run found for branch $BRANCH in repository $TARGET_REPO."
+          fi
+      
