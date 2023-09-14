@@ -72,6 +72,10 @@ jobs:
     - name: Check out repo's default branch
       uses: actions/checkout@v3
 
+    - name: Print Job ID
+      run: |
+        echo "Job ID from job1: $JOB1_JOB_ID"
+
     - name: Collect log 
       run: |
         echo "Current runner id: $CURRENT_RUNNER_ID"
@@ -215,7 +219,7 @@ jobs:
         run: |
           # Lấy thông tin pipeline
           gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .conclusion' > pipeline_status.txt
-          gh api repos/test-fullautomation/RobotFramework_AIO/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .url' >> pipeline_link.txt
+          gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .url' > pipeline_link.txt
 
 
       - name: Check Pipeline Status
