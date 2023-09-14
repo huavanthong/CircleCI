@@ -87,7 +87,7 @@ jobs:
     name: Display result
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    
+
     steps:
       - name: Check out repo's default branch
         uses: actions/checkout@v3
@@ -215,17 +215,21 @@ jobs:
         run: |
           # Lấy thông tin pipeline
           gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .conclusion' > pipeline_status.txt
+          gh api repos/test-fullautomation/RobotFramework_AIO/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .url' >> pipeline_link.txt
+
 
       - name: Check Pipeline Status
         run: |
           # Đọc kết quả pipeline từ file
           pipeline_status=$(cat pipeline_status.txt)
+          pipeline_link=$(cat pipeline_link.txt)
 
           # Kiểm tra kết quả pipeline và báo cáo
           if [[ "$pipeline_status" == "success" ]]; then
             echo "Pipeline RobotFramework AIO success."
           else
             echo "Pipeline is not succeed."
+            echo "Pipeline link: $pipeline_link"
             # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
             exit 1
           fi
