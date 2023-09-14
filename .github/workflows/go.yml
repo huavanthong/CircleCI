@@ -64,6 +64,98 @@ jobs:
     #     name: Build failure logs
     #     path: ${{ runner.temp }}/build_logs
 
+  collect-log:
+    name: Collect console log
+    runs-on: ubuntu-latest
+    needs: build  
+    steps:
+    - name: Check out repo's default branch
+      uses: actions/checkout@v3
+
+    - name: Collect log 
+      run: |
+        echo "Current runner id: $CURRENT_RUNNER_ID"
+        gh run view $CURRENT_RUNNER_ID --log > console_log.txt
+
+    - name: Upload built package
+      uses: actions/upload-artifact@v3
+      with:
+        name: upload log artifacts
+        path: console_log.txt
+
+  display-result:
+    name: Display result
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+      - name: Check out repo's default branch
+        uses: actions/checkout@v3
+  
+      - name: Fetch Pipeline Results
+        run: |
+          # Set up your GitHub Personal Access Token (PAT)
+          GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
+          
+          echo "${{ github.repository }}"
+
+          # Get the GitHub Run ID for the current workflow run
+          RUN_ID=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs" | \
+            jq -r '.workflow_runs[0].id')
+          
+          echo $RUN_ID
+  
+          # Fetch the workflow run details
+          PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID")
+
+          echo "###########################################"
+          # Print the pipeline details
+          echo "$PIPELINE"
+
+      - name: Create comment on PR
+        run: |
+          pipeline_result="PASS"
+
+          GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
+
+          # Sử dụng GitHub API để tạo bình luận
+          curl -X POST -H "Authorization: token $GH_TOKEN_SECRET" \
+          -d '{"body": "Kết quả của pipeline A: '"$pipeline_result"'"}' \
+          "https://api.github.com/repos/${{ github.repository }}/issues/pull/9/comments"
+
+
+      - name: Fetch Pipeline from Another Repository
+        run: |
+          sleep 180
+          # Set up your GitHub Personal Access Token (PAT)
+          GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
+      
+          # Define the target repository and branch
+          TARGET_REPO="huavanthong/microservice-golang"
+          BRANCH="master"  # Replace with the branch name you want to fetch the pipeline from
+      
+          # Get the GitHub Run ID for the workflow run of the target repository
+          RUN_ID=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
+            "https://api.github.com/repos/$TARGET_REPO/actions/runs" | \
+            jq -r ".workflow_runs[] | select(.head_branch == \"$BRANCH\").id")
+
+          echo "Runner ID is $RUN_ID"
+          
+          echo "Sleep"
+          if [ -n "$RUN_ID" ]; then
+            # Fetch the details of the workflow run
+            PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
+              "https://api.github.com/repos/$TARGET_REPO/actions/runs/$RUN_ID")
+      
+            # Print the pipeline details
+            echo "$PIPELINE"
+          else
+            echo "No workflow run found for branch $BRANCH in repository $TARGET_REPO."
+          fi
+      
+          
   trigger-build-aio:
     runs-on: ubuntu-latest
     steps:
@@ -137,93 +229,3 @@ jobs:
             # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
             exit 1
           fi
-
-  collect-log:
-    name: Collect console log
-    runs-on: ubuntu-latest
-    needs: build  
-    steps:
-    - name: Check out repo's default branch
-      uses: actions/checkout@v3
-
-    - name: Collect log 
-      run: |
-        echo "Current runner id: $CURRENT_RUNNER_ID"
-        gh run view $CURRENT_RUNNER_ID --log > console_log.txt
-
-    - name: Upload built package
-      uses: actions/upload-artifact@v3
-      with:
-        name: upload log artifacts
-        path: console_log.txt
-
-  display-result:
-    name: Display result
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repo's default branch
-        uses: actions/checkout@v3
-  
-      - name: Fetch Pipeline Results
-        run: |
-          # Set up your GitHub Personal Access Token (PAT)
-          GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
-          
-          echo "${{ github.repository }}"
-
-          # Get the GitHub Run ID for the current workflow run
-          RUN_ID=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs" | \
-            jq -r '.workflow_runs[0].id')
-          
-          echo $RUN_ID
-  
-          # Fetch the workflow run details
-          PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID")
-
-          echo "###########################################"
-          # Print the pipeline details
-          echo "$PIPELINE"
-
-      - name: Create comment on PR
-        run: |
-          pipeline_result="PASS"
-
-          GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
-
-          # Sử dụng GitHub API để tạo bình luận
-          curl -X POST -H "Authorization: token $GH_TOKEN_SECRET" \
-          -d '{"body": "Kết quả của pipeline A: '"$pipeline_result"'"}' \
-          "https://api.github.com/repos/${{ github.repository }}/issues/pull/9/comments"
-
-
-      - name: Fetch Pipeline from Another Repository
-        run: |
-          sleep 180
-          # Set up your GitHub Personal Access Token (PAT)
-          GH_TOKEN_SECRET=${{ secrets.GITHUB_TOKEN }}
-      
-          # Define the target repository and branch
-          TARGET_REPO="huavanthong/microservice-golang"
-          BRANCH="master"  # Replace with the branch name you want to fetch the pipeline from
-      
-          # Get the GitHub Run ID for the workflow run of the target repository
-          RUN_ID=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
-            "https://api.github.com/repos/$TARGET_REPO/actions/runs" | \
-            jq -r ".workflow_runs[] | select(.head_branch == \"$BRANCH\").id")
-
-          echo "Runner ID is $RUN_ID"
-          
-          echo "Sleep"
-          if [ -n "$RUN_ID" ]; then
-            # Fetch the details of the workflow run
-            PIPELINE=$(curl -s -X GET -H "Authorization: Bearer $GH_TOKEN_SECRET" \
-              "https://api.github.com/repos/$TARGET_REPO/actions/runs/$RUN_ID")
-      
-            # Print the pipeline details
-            echo "$PIPELINE"
-          else
-            echo "No workflow run found for branch $BRANCH in repository $TARGET_REPO."
-          fi
-      
