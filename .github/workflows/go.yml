@@ -51,7 +51,7 @@ jobs:
 
     - name: Test
       run: |
-        go test -v ./... | tee console_log.txt
+        go test -v ./... 2>&1 | tee -a tee console_log.txt
         mkdir logfile
         mv console_log.txt ./logfile
         ls -al
