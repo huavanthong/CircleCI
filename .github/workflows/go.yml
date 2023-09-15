@@ -50,19 +50,18 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: go test -v ./...
+      run: |
+        go test -v ./... | tee console_log.txt
+        mkdir logfile
+        mv console_log.txt ./logfile
 
-    # - name: Build with logs
-    #   run: |
-    #     mkdir ${{ runner.temp }}/build_logs
-    #     ./build.sh --log-path ${{ runner.temp }}/build_logs
-
-    # - name: Upload logs on fail
-    #   if: ${{ failure() }}
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: Build failure logs
-    #     path: ${{ runner.temp }}/build_logs
+    - name: Upload logs on fail
+      if: success() || failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: log-result
+        path: |
+          ${{ runner.workspace }}/logfile/*
 
   collect-log:
     name: Collect console log
@@ -237,3 +236,28 @@ jobs:
             # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
             exit 1
           fi
+
+      - name: Update artifacts on repos microservice
+        run: |
+          # Đảm bảo bạn đã tạo một personal access token có quyền truy cập vào repository A và lưu nó trong secrets của repository B.
+          REPO_A_TOKEN="${{ secrets.ACTIONS_KEY }}"
+      
+          # Đặt tên của artifacts mà bạn muốn tải lên
+          ARTIFACT_NAME="your-artifact-name"
+      
+          # Tạo một release và lấy ID của release này
+          RELEASE_ID=$(curl -X POST \
+            -H "Authorization: token $REPO_A_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/owner/repoA/releases" | jq -r .id)
+      
+          # Tạo một upload URL cho artifacts trong release
+          UPLOAD_URL="https://uploads.github.com/repos/huavanthong/microservice-golang/releases/$RELEASE_ID/assets?name=$ARTIFACT_NAME.zip"
+      
+          # Tải lên artifacts từ repository B vào repository A
+          curl -X POST \
+            -H "Authorization: token $REPO_A_TOKEN" \
+            -H "Content-Type: application/zip" \
+            --data-binary "@artifact-name.zip" \
+            "$UPLOAD_URL"
+          
