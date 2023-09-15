@@ -54,8 +54,10 @@ jobs:
         go test -v ./... | tee console_log.txt
         mkdir logfile
         mv console_log.txt ./logfile
+        ls -al
+        ls -la ./logfile
 
-    - name: Upload logs on fail
+    - name: Upload logs test
       if: success() || failure()
       uses: actions/upload-artifact@v3
       with:
