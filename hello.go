@@ -38,7 +38,7 @@ var httpClient = &http.Client{Timeout: 10 * time.Second}
 // main is the entry point to the application by convention
 func main() {
 	fmt.Println("Starting a server listening at port 8080")
-	os.Exit(0)
+
 	http.HandleFunc("/", hello)
 	port := os.Getenv("PORT")
 	http.ListenAndServe(":"+port, nil)
