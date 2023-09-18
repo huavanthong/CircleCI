@@ -63,7 +63,7 @@ jobs:
       with:
         name: log-result
         path: |
-          ${{ runner.workspace }}/**/*/logfile/*
+          ${{ runner.workspace }}/logfile/*
 
   collect-log:
     name: Collect console log
