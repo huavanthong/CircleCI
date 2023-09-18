@@ -65,6 +65,17 @@ jobs:
           echo "Tests failed!"
           exit 1
         fi
+    
+    - name: Test python
+      run: |
+        python hello.py 2>&1 | tee output.txt
+        exit_code=$?
+
+        if [ $exit_code -eq 1 ]; then
+            echo "Error: An error occurred in your_script.py."
+            # Thực hiện các hành động bổ sung ở đây
+            exit 1
+        fi
 
     - name: Upload logs test
       if: success() || failure()
