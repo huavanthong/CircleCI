@@ -39,5 +39,6 @@ func TestFailCase(t *testing.T) {
 	msg := Message(project)
 	if msg != "<p>: Latest commit: now</p>" {
 		t.Errorf("Incorrect message: %s", msg)
+		t.Fail() // Bắt lỗi ở đây
 	}
 }
