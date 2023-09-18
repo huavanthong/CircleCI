@@ -57,6 +57,15 @@ jobs:
         ls -al
         ls -la ./logfile
 
+    - name: Check test results
+      run: |
+        if [ $? -eq 0 ]; then
+          echo "Tests passed!"
+        else
+          echo "Tests failed!"
+          exit 1
+        fi
+
     - name: Upload logs test
       if: success() || failure()
       uses: actions/upload-artifact@v3
