@@ -25,12 +25,12 @@ try:
 except Exception as ex:
    print()
    printerror(str(ex))
-   print("HERE")
+   print("HERE222")
 #    with open('error.txt', 'w') as error_file:
 #         error_file.write(str(e))
 
 
-print()
+print("error")
 sys.exit(1)
    
 # Đóng tệp tin
