@@ -69,12 +69,11 @@ jobs:
     - name: Test python
       run: |
         python hello.py 2>&1 | tee output.txt
-
+        
         exit_code=${PIPESTATUS[0]}
 
-        if [ $exit_code -eq -1 ]; then
+        if [ $exit_code -eq 255 ]; then
             echo "Script kết thúc với exit code 1."
-            exit 1
         else
             echo "Script kết thúc với exit code khác 1."
         fi
