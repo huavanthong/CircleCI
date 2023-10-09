@@ -47,7 +47,7 @@ jobs:
   
   
   call-workflow-passing-data:
-    uses: ./.github/workflows/go.yml@master
+    uses: ./.github/workflows/go.yml
     
 
   check-pipeline:
