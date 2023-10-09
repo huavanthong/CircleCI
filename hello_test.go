@@ -31,3 +31,14 @@ func TestMessageLackOfName(t *testing.T) {
 		t.Errorf("Incorrect message: %s", msg)
 	}
 }
+
+func TestFailCase(t *testing.T) {
+	project := new(Project)
+	project.PushedAt = "sssss"
+
+	msg := Message(project)
+	if msg != "<p>: Latest commit: now</p>" {
+		t.Errorf("Incorrect message: %s", msg)
+		t.Fail() // Bắt lỗi ở đây
+	}
+}
