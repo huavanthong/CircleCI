@@ -8,6 +8,8 @@ on:
       - synchronize
     branches: [ "master" ]
 
+  workflow_call:
+
 env:
   CURRENT_RUNNER_ID: ${{ github.run_id }}
   GH_TOKEN: ${{ github.token }}
