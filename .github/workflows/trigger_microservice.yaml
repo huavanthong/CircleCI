@@ -8,8 +8,6 @@ on:
       - synchronize
     branches: [ "master" ]
 
-  workflow_call:
-
   workflow_dispatch:
     
 env:
