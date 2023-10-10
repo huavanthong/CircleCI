@@ -36,7 +36,7 @@ on:
 env:
   CURRENT_RUNNER_ID: ${{ github.run_id }}
   GH_TOKEN: ${{ github.token }}
-  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  MY_ENV_VAR: 
 
   
 jobs:
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set environment variable in job A
-        run: echo "MY_ENV_VAR=example_value" >> $GITHUB_ENV
+        run: echo "MY_ENV_VAR=example_value_hello" >> $GITHUB_ENV
         
   build:
     runs-on: ubuntu-latest
