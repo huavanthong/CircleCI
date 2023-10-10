@@ -62,7 +62,7 @@ jobs:
 
     - name: Update contents
       run: |
-        echo tag-$(date +%m.%Y) > content.txt 
+        echo tag-$(date +%d.%m.%Y-%H:%M:%S) > content.txt 
       
     - name: Commit Changes
       run: |
