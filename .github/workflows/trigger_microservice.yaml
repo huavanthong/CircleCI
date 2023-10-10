@@ -48,7 +48,7 @@ jobs:
   
   
   
-  call-workflow-passing-data:
+  call-build-process:
     uses: ./.github/workflows/go.yml
     
 
