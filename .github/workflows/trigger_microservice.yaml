@@ -73,7 +73,7 @@ jobs:
         git checkout -b $tag_branch
         git add content.txt
         git commit -m "Auto commit from GitHub Actions"
-        git push 
+        git push -u origin $tag_branch
 
     - name: Create Pull Request
       run: |
