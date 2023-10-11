@@ -38,7 +38,7 @@ jobs:
         echo $tag_branch > tag_branch.txt
         
         # Check if the branch exists
-        if git rev-parse --verify --quiet $tag_branch; then
+        if [ -n "$(git ls-remote --heads origin $tag_branch)" ]; then
           echo "Branch '$tag_branch' exists."
           git checkout $tag_branch
           git rebase master
@@ -56,7 +56,7 @@ jobs:
         tag_branch=$(cat tag_branch.txt)
         git add content.txt
         git commit -m "Auto commit from GitHub Actions"
-        git push -u origin $tag_branch
+        git push -u -f origin $tag_branch
 
     - name: Create Pull Request
       run: |
