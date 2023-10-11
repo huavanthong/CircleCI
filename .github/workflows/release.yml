@@ -34,7 +34,7 @@ jobs:
 
     - name: Checkout automation branch
       run: |
-        tag_branch=htv3hc/feat/tag-version-0.0.1
+        tag_branch="htv3hc/feat/tag-version-0.0.1"
         echo $tag_branch > tag_branch.txt
         
         # Check if the branch exists
