@@ -42,8 +42,8 @@ jobs:
           git checkout $tag_branch
         else
           git checkout -b $tag_branch
-        fi
-        git rebase develop
+        git branch -a 
+        git rebase master
 
 
     - name: Update contents
