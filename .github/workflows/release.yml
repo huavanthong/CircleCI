@@ -40,10 +40,10 @@ jobs:
         # Check if the branch exists
         if git rev-parse --verify --quiet $branch_name; then
           git checkout $tag_branch
+          git rebase master
         else
           git checkout -b $tag_branch
-        fi
-        git rebase master
+        fi     
 
     - name: Update contents
       run: |
