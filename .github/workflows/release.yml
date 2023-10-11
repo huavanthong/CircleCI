@@ -15,14 +15,14 @@ jobs:
       - name: Set environment variable in job A
         run: echo "MY_ENV_VAR=example_value_hello" >> $GITHUB_ENV
   
-  call-build-process:
-    needs: [display-variables]
-    uses: ./.github/workflows/build.yml
+  # call-build-process:
+  #   needs: [display-variables]
+  #   uses: ./.github/workflows/build.yml
       
   update-control-file:
     name: Update content
     runs-on: ubuntu-latest
-    needs: [call-build-process]
+    # needs: [call-build-process]
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
