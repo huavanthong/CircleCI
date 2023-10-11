@@ -34,7 +34,7 @@ jobs:
 
     - name: Checkout automation branch
       run: |
-        tag_branch="htv3hc/feat/tag-version-0.0.2"
+        tag_branch=htv3hc/feat/tag-version-0.0.2
         echo $tag_branch > tag_branch.txt
         
         # Check if the branch exists
@@ -53,10 +53,7 @@ jobs:
       
     - name: Commit Changes
       run: |
-        tag_version=$(cat content.txt)
-        tag_branch=htv3hc/feat/$tag_version
-        echo $tag_branch > tag_branch.txt
-
+        tag_branch=$(cat tag_branch.txt)
         git checkout -b $tag_branch
         git add content.txt
         git commit -m "Auto commit from GitHub Actions"
