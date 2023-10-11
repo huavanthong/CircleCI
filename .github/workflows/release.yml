@@ -39,9 +39,11 @@ jobs:
         
         # Check if the branch exists
         if git rev-parse --verify --quiet $tag_branch; then
+          echo "Branch '$tag_branch' exists."
           git checkout $tag_branch
           git rebase master
         else
+          echo "Branch '$tag_branch' does not exist."
           git checkout -b $tag_branch
         fi     
 
