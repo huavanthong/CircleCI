@@ -83,7 +83,7 @@ jobs:
 
   call-build-process:
     uses: ./.github/workflows/go.yml
-    
+    needs: call-build-process.build
 
   check-pipeline:
     runs-on: ubuntu-latest
