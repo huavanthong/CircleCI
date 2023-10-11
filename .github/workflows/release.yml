@@ -38,15 +38,12 @@ jobs:
         echo $tag_branch > tag_branch.txt
         
         # Check if the branch exists
-        if [ -n "$(git ls-remote --heads origin $tag_branch)" ]; then
+        if git rev-parse --verify --quiet $branch_name; then
           git checkout $tag_branch
         else
           git checkout -b $tag_branch
         fi
-        
-        git branch -a 
         git rebase master
-
 
     - name: Update contents
       run: |
