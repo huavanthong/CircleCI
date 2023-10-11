@@ -54,7 +54,6 @@ jobs:
     - name: Commit Changes
       run: |
         tag_branch=$(cat tag_branch.txt)
-        git checkout -b $tag_branch
         git add content.txt
         git commit -m "Auto commit from GitHub Actions"
         git push -u origin $tag_branch
