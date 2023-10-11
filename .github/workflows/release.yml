@@ -38,7 +38,7 @@ jobs:
         echo $tag_branch > tag_branch.txt
         
         # Check if the branch exists
-        if git rev-parse --verify --quiet $branch_name; then
+        if git rev-parse --verify --quiet $tag_branch; then
           git checkout $tag_branch
           git rebase master
         else
