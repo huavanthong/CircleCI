@@ -36,16 +36,8 @@ jobs:
       run: |
         tag_branch=htv3hc/feat/tag-version-0.0.2
         echo $tag_branch > tag_branch.txt
-        
-        # Check if the branch exists
-        if [ -n "$(git ls-remote --heads origin $tag_branch)" ]; then
-          echo "Branch '$tag_branch' exists."
-          git checkout $tag_branch
-          git rebase master
-        else
-          echo "Branch '$tag_branch' does not exist."
-          git checkout -b $tag_branch
-        fi     
+    
+        git checkout -b $tag_branch  
 
     - name: Update contents
       run: |
