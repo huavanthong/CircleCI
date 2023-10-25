@@ -22,8 +22,6 @@ jobs:
   update-control-file:
     name: Update content
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     # needs: [call-build-process]
     steps:
     - name: Checkout source
