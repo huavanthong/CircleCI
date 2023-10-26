@@ -4,7 +4,13 @@ on:
   push:
     tags:
       - "*"
-
+  pull_request:
+    types:
+      - closed
+      - opened
+      - synchronize
+    branches: 
+      - master
 env:
   GH_TOKEN: ${{ github.token }}
 
