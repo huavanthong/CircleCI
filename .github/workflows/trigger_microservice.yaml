@@ -1,4 +1,4 @@
-name: Listen event from other
+name: Trigger microservice
 
 on:
   pull_request:
