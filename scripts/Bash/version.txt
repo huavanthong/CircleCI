@@ -1,0 +1,15 @@
+Installer version:
+********************
+RobotFramework AIO (OSS)  maunau build
+
+Web sites:
+********************
+RobotFramework AIO Tool full version:
+    https://htmlpreview.github.io/?https://github.com/test-fullautomation/robotframework-documentation/blob/develop/RobotFrameworkAIO/Components.html
+
+RobotFramework AIO repository:
+    https://github.com/test-fullautomation/RobotFramework_AIO
+
+Author:
+********************
+Thomas Pollerspöck <Pollerspoeck@de.bosch.com>
