@@ -25,9 +25,9 @@ jobs:
       - name: Set environment variable in job A
         run: echo "MY_ENV_VAR=example_value_hello" >> $GITHUB_ENV
   
-  call-build-process:
-    needs: [display-variables]
-    uses: huavanthong/CircleCI/.github/workflows/build.yml@master
+  # call-build-process:
+  #   needs: [display-variables]
+  #   uses: huavanthong/CircleCI/.github/workflows/build.yml@master
       
   update-control-file:
     name: Update content
