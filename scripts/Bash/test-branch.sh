@@ -4,7 +4,7 @@ tag_branch="htv3hc/feat/tag-version-0.0.2"
 
 pr_exists=$(gh pr list --state open | grep "Auto-generated PR")
 # Github CLI for pull request.
-if [ -z "$pr_exists" ]; then
+if [ -z $pr_exists ]; then
     # Pull request chưa tồn tại, tạo mới
     echo "Pull request not found. Creating a new one..."
     gh pr create \
