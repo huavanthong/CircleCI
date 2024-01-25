@@ -112,9 +112,9 @@ jobs:
         git config user.name "Thong Hua"
         git config --list
 
-        # echo "Add repository for remoting"
-        # git remote add other-repo https://github.com/huavanthong/microservice-golang.git
-        # git remote -v 
+        echo "Add repository for remoting"
+        git remote add other-repo https://${{ secrets.ACTIONS_KEY }}@github.com/huavanthong/microservice-golang.git
+        git remote -v 
 
         echo "Modify for commit"
         echo "Hello world" >> README.md
@@ -123,7 +123,7 @@ jobs:
         git add -u
         git commit -m "Auto update documents in robotframework"
         echo "Commit done"
-        git push origin $doc_branch
+        git push other-repo $doc_branch
 
         echo "Push code successfully"
         gh pr create \
