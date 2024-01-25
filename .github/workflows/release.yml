@@ -65,8 +65,8 @@ jobs:
       run: |
         tag_branch=$(cat tag_branch.txt)
         echo "Check 1" | grep Check
-        test=$(gh pr list --state open --json title| grep "Auto-generated PR")
-        echo "Check 2: $test"
+        # test=$(gh pr list --state open --json title| grep "Auto-generated PR")
+        # echo "Check 2: $test"
         pr_exists=$(gh pr list --state open)
         echo "PR Exists: $pr_exists"
         # Github CLI for pull request.
