@@ -98,8 +98,12 @@ jobs:
         echo "Setting user DONE"
         git config user.email "huavanthong14@gmail.com"
         git config user.name "Thong Hua"
-        git remote add other-repo https://github.com/huavanthong/microservice-golang.git
 
+        echo "Add repository for remoting"
+        git remote add other-repo https://github.com/huavanthong/microservice-golang.git
+        git remote -v 
+
+        echo "Modify for commit"
         echo "Hello world" >> README.md
         git status
         echo "Add all changes"
@@ -108,6 +112,7 @@ jobs:
         echo "Commit done"
         git push other-repo $doc_branch
 
+        echo "Push code successfully"
         gh pr create \
           --base master --head $doc_branch \
           --title "Auto-generated PR for documents" \
