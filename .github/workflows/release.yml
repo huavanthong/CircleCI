@@ -80,3 +80,16 @@ jobs:
           # Pull request đã tồn tại, thông báo và không thực hiện thêm hành động
           echo "Pull request already exists. Skipping..."
         fi
+
+    - name: Create commit for Golang
+      run: |
+        cd ../
+        git clone https://github.com/huavanthong/microservice-golang.git
+        cd microservice-golang
+        git status
+        echo "Hello world" >> README.md
+        git status
+        echo "Add all changes"
+        git add .
+        git commit -m "Your commit message here"
+        echo "Commit done"
