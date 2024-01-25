@@ -126,6 +126,13 @@ jobs:
         git push -u -f other-repo $doc_branch
 
         echo "Push code successfully"
+        
+        echo "Check all environment for permission"
+        echo "GitHub Token: $GITHUB_TOKEN"
+        echo "Permissions: $(env)"
+        # Thêm các thông tin debugging khác
+
+        echo "Create pull request to another repos"
         gh pr create \
           --base master --head $doc_branch \
           --title "Auto-generated PR for documents" \
