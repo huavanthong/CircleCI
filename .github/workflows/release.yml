@@ -67,7 +67,7 @@ jobs:
         echo "Check 1" | grep Check
         # test=$(gh pr list --state open --json title| grep "Auto-generated PR")
         # echo "Check 2: $test"
-        pr_exists=$(gh pr list --state open)
+        pr_exists=$(gh pr list --state open | grep "Auto-generated PR")
         echo "PR Exists: $pr_exists"
         # Github CLI for pull request.
         if [ -z "$pr_exists" ]; then
