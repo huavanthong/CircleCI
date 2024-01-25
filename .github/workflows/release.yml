@@ -64,7 +64,7 @@ jobs:
     - name: Create Pull Request
       run: |
         tag_branch=$(cat tag_branch.txt)
-        echo "Check 1"
+        echo "Check 1" | grep Check
         test=$(gh pr list --state open)
         echo "Check 2: $test"
         pr_exists=$(gh pr list --state open | grep "Auto-generated PR")
