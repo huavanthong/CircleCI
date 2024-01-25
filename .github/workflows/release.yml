@@ -37,7 +37,8 @@ jobs:
       id-token: write
       contents: read
       issues: write
-      pull-requests: write    
+      pull-requests: write
+      repository-projects: write    
     if: ${{ github.ref_type == 'tag' }}
     steps:
     - name: Checkout source
