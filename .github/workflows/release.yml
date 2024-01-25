@@ -65,9 +65,7 @@ jobs:
       run: |
         tag_branch=$(cat tag_branch.txt)
 
-        # pr_exists=$(gh pr list --base master --head $tag_branch | grep "Auto-generated PR")
-        echo "Check 1"
-        echo $pr_exist
+        pr_exists=$(gh pr list --state open | grep "Auto-generated PR")
         # Github CLI for pull request.
         if [ -z "$pr_exists" ]; then
           # Pull request chưa tồn tại, tạo mới
