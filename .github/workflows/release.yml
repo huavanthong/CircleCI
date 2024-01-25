@@ -65,9 +65,9 @@ jobs:
       run: |
         tag_branch=$(cat tag_branch.txt)
         echo "Check 1" | grep Check
-        test=$(gh pr list --state open | grep Auto)
+        test=$(gh pr list --state open --json title| grep "Auto-generated PR")
         echo "Check 2: $test"
-        pr_exists=$(gh pr list --state open | grep Auto-generated PR)
+        pr_exists=$(gh pr list --state open)
         echo "PR Exists: $pr_exists"
         # Github CLI for pull request.
         if [ -z "$pr_exists" ]; then
@@ -83,3 +83,8 @@ jobs:
           # Pull request đã tồn tại, thông báo và không thực hiện thêm hành động
           echo "Pull request already exists. Skipping..."
         fi
+
+        test2=$(gh pr list --state open)
+        echo "PR Exists: $test2"
+        test3=$(gh pr list --state open | grep "Auto-generated PR")
+        echo "PR Exists: $test3"
