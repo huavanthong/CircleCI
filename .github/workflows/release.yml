@@ -110,7 +110,7 @@ jobs:
         echo "Setting user DONE"
         git config user.email "huavanthong14@gmail.com"
         git config user.name "Thong Hua"
-        git config --global --list
+        git config --list
 
         # echo "Add repository for remoting"
         # git remote add other-repo https://github.com/huavanthong/microservice-golang.git
