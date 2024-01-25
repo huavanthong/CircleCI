@@ -147,4 +147,4 @@ jobs:
           --reviewer huavanthong \
           --repo huavanthong/microservice-golang
       env:
-        GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_KEYS }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
