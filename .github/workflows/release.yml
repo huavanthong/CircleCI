@@ -81,6 +81,18 @@ jobs:
           echo "Pull request already exists. Skipping..."
         fi
 
+    # - name: Pushes to another repository
+    #   uses: cpina/github-action-push-to-another-repository@main
+    #   env:
+    #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+    #   with:
+    #     source-directory: 'output'
+    #     destination-github-username: 'cpina'
+    #     destination-repository-name: 'pandoc-test-output'
+    #     user-email: carles3@pina.cat
+    #     target-branch: main
+    #   https://github.com/marketplace/actions/push-directory-to-another-repository-directory
+        
     - name: Create commit for Golang
       run: |
         cd ../        
@@ -98,10 +110,11 @@ jobs:
         echo "Setting user DONE"
         git config user.email "huavanthong14@gmail.com"
         git config user.name "Thong Hua"
+        git config --global --list
 
-        echo "Add repository for remoting"
-        git remote add other-repo https://github.com/huavanthong/microservice-golang.git
-        git remote -v 
+        # echo "Add repository for remoting"
+        # git remote add other-repo https://github.com/huavanthong/microservice-golang.git
+        # git remote -v 
 
         echo "Modify for commit"
         echo "Hello world" >> README.md
@@ -110,7 +123,7 @@ jobs:
         git add -u
         git commit -m "Auto update documents in robotframework"
         echo "Commit done"
-        git push other-repo $doc_branch
+        git push origin $doc_branch
 
         echo "Push code successfully"
         gh pr create \
