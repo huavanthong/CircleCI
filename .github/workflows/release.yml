@@ -113,7 +113,7 @@ jobs:
         git config --list
 
         echo "Add repository for remoting"
-        git remote add other-repo https://${{ secrets.ACTIONS_KEY }}@github.com/huavanthong/microservice-golang.git
+        git remote add other-repo https://${{ secrets.PULL_REQUEST_KEYS }}@github.com/huavanthong/microservice-golang.git
         git remote -v 
 
         echo "Modify for commit"
