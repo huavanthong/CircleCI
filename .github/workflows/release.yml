@@ -80,4 +80,3 @@ jobs:
           # Pull request đã tồn tại, thông báo và không thực hiện thêm hành động
           echo "Pull request already exists. Skipping..."
         fi
-
