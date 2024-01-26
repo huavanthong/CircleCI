@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
-        
+
       - name: Set environment variable in job A
         run: echo "MY_ENV_VAR=example_value_hello" >> $GITHUB_ENV
   
@@ -84,18 +84,6 @@ jobs:
           echo "Pull request already exists. Skipping..."
         fi
 
-    # - name: Pushes to another repository
-    #   uses: cpina/github-action-push-to-another-repository@main
-    #   env:
-    #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-    #   with:
-    #     source-directory: 'output'
-    #     destination-github-username: 'cpina'
-    #     destination-repository-name: 'pandoc-test-output'
-    #     user-email: carles3@pina.cat
-    #     target-branch: main
-    #   https://github.com/marketplace/actions/push-directory-to-another-repository-directory
-        
     - name: Create commit for Golang
       run: |
         cd ../        
