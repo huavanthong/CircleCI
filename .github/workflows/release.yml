@@ -111,11 +111,11 @@ jobs:
         git config user.email "huavanthong14@gmail.com"
         git config user.name "Thong Hua"
         git config --list
-        git config credential.helper "store --file=.git/credentials"
-        echo "https://github.com/username/repo.git:${{ secrets.PULL_REQUEST_KEYS }}" > .git/credentials
+        # git config credential.helper "store --file=.git/credentials"
+        # echo "https://github.com/username/repo.git:${{ secrets.ACTIONS_KEY }}" > .git/credentials
 
         echo "Add repository for remoting"
-        git remote add other-repo https://${{ secrets.PULL_REQUEST_KEYS }}@github.com/huavanthong/microservice-golang.git
+        git remote add other-repo https://${{ secrets.ACTIONS_KEY }}@github.com/huavanthong/microservice-golang.git
         git remote -v 
 
         echo "Modify for commit"
