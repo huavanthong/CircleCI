@@ -125,7 +125,6 @@ jobs:
         # echo "GitHub Token: $GITHUB_TOKEN"
         # echo "Permissions: $(env)"
         echo "GitHub CLI Version: $(gh --version)"
-        # Thêm các thông tin debugging khác
 
         # echo "Create pull request to another repos"
         # gh pr create \
