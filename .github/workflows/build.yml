@@ -74,14 +74,14 @@ jobs:
     - name: Start containers microservice-base
       run: |
         cd python-microservice-base
-        git checkout -b htv3hc/feat/dockerize-microservice-base origin/htv3hc/feat/dockerize-microservice-base
+        git checkout -b htv3hc/feat/dockerize-microservice-base remotes/origin/htv3hc/feat/dockerize-microservice-base
         cd MicroserviceBase
         docker-compose -f "docker-compose.yml" up -d --build
 
     - name: Start containers
       run: |
         cd python-microservice-cleware-switch
-        git checkout -b htv3hc/feat/dockerize-cleware-service origin/htv3hc/feat/dockerize-cleware-service
+        git checkout -b htv3hc/feat/dockerize-cleware-service remotes/origin/htv3hc/feat/dockerize-cleware-service
         docker-compose -f "docker-compose.yml" up -d --build
 
 
