@@ -50,8 +50,30 @@ jobs:
       with:
         go-version: '1.20'
 
+    - name: Clone python-microservice-base
+      uses: GuillaumeFalourd/clone-github-repo-action@v2.3
+      with:
+        depth: 1
+        branch: 'develop'
+        owner: 'test-fullautomation'
+        repository: 'python-microservice-base'
+
+    - name: Clone python-microservice-base
+      uses: GuillaumeFalourd/clone-github-repo-action@v2.3
+      with:
+        depth: 1
+        branch: 'develop'
+        owner: 'test-fullautomation'
+        repository: 'python-microservice-cleware-switch'
+        
     - name: Use environment variable in job B
-      run: echo "Value of MY_ENV_VAR is $MY_ENV_VAR"
+      run: |
+        echo "Value of MY_ENV_VAR is $MY_ENV_VAR"
+        ls -la
+        cd python-microservice-base
+        ls -la
+        cd python-microservice-cleware-switch
+        ls -la
 
     - name: Build
       run: go build -v ./...
