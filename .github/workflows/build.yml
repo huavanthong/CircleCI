@@ -81,6 +81,7 @@ jobs:
         # git checkout -b test remotes/origin/htv3hc/feat/dockerize-microservice-base
         cd MicroserviceBase
         docker-compose -f "docker-compose.yml" up -d --build
+        docker-compose ps
 
     - name: Start containers
       run: |
@@ -90,11 +91,21 @@ jobs:
         git branch -a
         # git checkout -b test remotes/origin/htv3hc/feat/dockerize-cleware-service
         docker-compose -f "docker-compose.yml" up -d --build
+        docker-compose ps
 
-    - name: Docker compose status
+    - name: Wait for RabbitMQ to be ready
       run: |
-        docker compose logs -f -t 
-
+        # Wait for RabbitMQ to be fully up and running
+        until docker-compose exec -T rabbitmq rabbitmqctl status; do
+          echo "Waiting for RabbitMQ to be ready..."
+          sleep 5
+        done
+  
+    - name: Check RabbitMQ status
+      run: |
+        docker-compose ps
+        docker-compose logs rabbitmq
+  
   #   - name: Build
   #     run: go build -v ./...
 
