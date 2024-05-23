@@ -91,7 +91,9 @@ jobs:
         # git checkout -b test remotes/origin/htv3hc/feat/dockerize-cleware-service
         docker-compose -f "docker-compose.yml" up -d --build
 
-
+    - name: Docker compose status
+      run: |
+        docker compose logs -f -t 
 
   #   - name: Build
   #     run: go build -v ./...
