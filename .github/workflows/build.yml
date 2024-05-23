@@ -54,7 +54,7 @@ jobs:
       uses: GuillaumeFalourd/clone-github-repo-action@v2.3
       with:
         depth: 1
-        branch: 'develop'
+        branch: 'htv3hc/feat/dockerize-microservice-base'
         owner: 'test-fullautomation'
         repository: 'python-microservice-base'
 
@@ -62,7 +62,7 @@ jobs:
       uses: GuillaumeFalourd/clone-github-repo-action@v2.3
       with:
         depth: 1
-        branch: 'develop'
+        branch: 'htv3hc/feat/dockerize-cleware-service'
         owner: 'test-fullautomation'
         repository: 'python-microservice-cleware-switch'
         
@@ -77,15 +77,18 @@ jobs:
         cd python-microservice-base
         ls -la
         git status
-        git checkout -b test remotes/origin/htv3hc/feat/dockerize-microservice-base
+        git branch -a 
+        # git checkout -b test remotes/origin/htv3hc/feat/dockerize-microservice-base
         cd MicroserviceBase
         docker-compose -f "docker-compose.yml" up -d --build
 
     - name: Start containers
       run: |
         cd python-microservice-cleware-switch
+        ls -la
         git status
-        git checkout -b test remotes/origin/htv3hc/feat/dockerize-cleware-service
+        git branch -a
+        # git checkout -b test remotes/origin/htv3hc/feat/dockerize-cleware-service
         docker-compose -f "docker-compose.yml" up -d --build
 
 
