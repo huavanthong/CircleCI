@@ -101,6 +101,8 @@ jobs:
         echo "Hello World 1"
         docker image save --output devarserv-service-base.tar.gz multirepo_service-base
         echo "Hello World 2"
+        ls -la
+        sleep(30)
         mkdir -p ./build/storage
         mv devarserv-cleware-service.tar.gz devarserv-service-base.tar.gz ./build/storage
         ls -la ./build/storage
