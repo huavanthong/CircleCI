@@ -96,8 +96,8 @@ jobs:
     - name: Extract all services into images
       run: |
         docker ps
-        docker image save --output devarserv-cleware-service.tar.gz devarserv-cleware-service
-        docker image save --output devarserv-service-base.tar.gz devarserv-service-base
+        docker image save --output devarserv_cleware-service.tar.gz devatserv_cleware-service
+        docker image save --output devarserv-service-base.tar.gz multirepo_service-base
         mkdir -p ./build/storage
         mv devarserv-cleware-service.tar.gz devarserv-service-base.tar.gz ./build/storage
         ls -la ./build/storage
