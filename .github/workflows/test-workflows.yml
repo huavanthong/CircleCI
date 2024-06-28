@@ -1,0 +1,45 @@
+name: RabbitMQ Example
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Pull RabbitMQ Docker image
+      run: |
+        docker pull rabbitmq:3.13-management
+
+    - name: Start RabbitMQ container
+      run: |
+        docker run -d --name rabbitmq \
+          -p 5672:5672 \
+          -p 15672:15672 \
+          -e RABBITMQ_DEFAULT_USER=guest \
+          -e RABBITMQ_DEFAULT_PASS=guest \
+          rabbitmq:3.13-management
+
+    - name: Check RabbitMQ status
+      run: |
+        docker ps -a
+
+    - name: Run tests against RabbitMQ
+      run: |
+        # Example: Use a script or test framework to interact with RabbitMQ
+        # Replace with your actual test commands
+        docker exec rabbitmq rabbitmqctl list_queues
+
+    - name: Stop RabbitMQ container
+      run: |
+        docker stop rabbitmq
+        docker rm rabbitmq

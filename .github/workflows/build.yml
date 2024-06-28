@@ -106,18 +106,8 @@ jobs:
         mkdir -p ./build/storage
         mv devarserv-cleware-service.tar.gz devarserv-service-base.tar.gz ./build/storage
         ls -la ./build/storage
-    # - name: Wait for RabbitMQ to be ready
-    #   run: |
-    #     # Wait for RabbitMQ to be fully up and running
-    #     until docker-compose exec -T rabbitmq rabbitmqctl status; do
-    #       echo "Waiting for RabbitMQ to be ready..."
-    #       sleep 5
-    #     done
+
   
-    - name: Check RabbitMQ status
-      run: |
-        docker-compose ps
-        docker-compose logs rabbitmq
   
   #   - name: Build
   #     run: go build -v ./...
