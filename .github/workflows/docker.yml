@@ -15,14 +15,5 @@ jobs:
       - name: Win / Set WSL 2 as default
         run: wsl --set-default-version 2
 
-      - name: Run "wsl --list --all"
-        run: wsl --list --all
-
-      - name: Run "bash --version"
-        run: bash --version
-      
-      - name: Run "wsl whoami"
-        run: wsl --distribution Ubuntu whoami
-
-      - name: Run "wsl --status"
-        run: wsl --status
+      - name: Download rabbitmq
+        run: docker pull rabbitmq
