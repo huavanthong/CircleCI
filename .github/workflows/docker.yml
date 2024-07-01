@@ -15,5 +15,22 @@ jobs:
       - name: Win / Set WSL 2 as default
         run: wsl --set-default-version 2
 
+      - name: Start Docker Desktop
+        run: |
+          Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+          Start-Sleep -Seconds 30  # Wait for Docker Desktop to start
+        shell: pwsh
+  
+      - name: Switch Docker to use WSL 2
+        run: |
+          & 'C:\Program Files\Docker\Docker\DockerCli.exe' -SwitchDaemon
+          & 'C:\Program Files\Docker\Docker\DockerCli.exe' -EnableIntegration Ubuntu
+        shell: pwsh
+  
+      - name: Verify Docker is using WSL 2
+        run: |
+          wsl docker version
+        shell: pwsh
+
       - name: Download rabbitmq
         run: docker pull rabbitmq
