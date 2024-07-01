@@ -66,30 +66,8 @@ jobs:
         owner: 'test-fullautomation'
         repository: 'python-microservice-cleware-switch'
         
-    - name: Use environment variable in job B
+    - name: Start all services
       run: |
-        echo "Value of MY_ENV_VAR is $MY_ENV_VAR"
-        ls -la
-
-    - name: Start containers microservice-base
-      run: |
-        ls -la
-        cd python-microservice-base
-        ls -la
-        git status
-        git branch -a 
-        # git checkout -b test remotes/origin/htv3hc/feat/dockerize-microservice-base
-        cd MicroserviceBase
-        docker-compose -f "docker-compose.yml" up -d --build
-        docker-compose ps
-
-    - name: Start containers
-      run: |
-        cd python-microservice-cleware-switch
-        ls -la
-        git status
-        git branch -a
-        # git checkout -b test remotes/origin/htv3hc/feat/dockerize-cleware-service
         docker-compose -f "docker-compose.yml" up -d --build
         docker-compose ps
 
@@ -100,15 +78,7 @@ jobs:
         docker image save --output devarserv_cleware-service.tar.gz devatserv_cleware-service
         echo "Hello World 1"
         docker image save --output devarserv-service-base.tar.gz multirepo_service-base
-        echo "Hello World 2"
-        ls -la
-        sleep(30)
-        mkdir -p ./build/storage
-        mv devarserv-cleware-service.tar.gz devarserv-service-base.tar.gz ./build/storage
-        ls -la ./build/storage
 
-  
-  
   #   - name: Build
   #     run: go build -v ./...
 
