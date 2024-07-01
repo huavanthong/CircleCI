@@ -1,9 +1,9 @@
-name: Build and Test with Docker on WSL 2
+name: Test Docker
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   main:
