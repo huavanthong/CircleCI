@@ -57,5 +57,4 @@ services:
 
 networks:
   devatserv-network:
-    external:
-      name: nat
+    driver: bridge
