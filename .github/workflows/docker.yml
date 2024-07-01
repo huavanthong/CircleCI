@@ -9,8 +9,11 @@ jobs:
   main:
     runs-on: windows-latest
     steps:
-      - name: Run "wsl --install Ubuntu"
-        run: wsl --install --distribution Ubuntu
+      - name: Check WSL
+        run: wsl --update
+
+      - name: Win / Set WSL 2 as default
+        run: wsl --set-default-version 2
 
       - name: Run "wsl --list --all"
         run: wsl --list --all
