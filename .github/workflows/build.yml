@@ -40,8 +40,8 @@ env:
 
   
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-windows:
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
 
