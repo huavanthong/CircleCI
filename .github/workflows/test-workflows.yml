@@ -23,7 +23,7 @@ jobs:
     - name: Start RabbitMQ container
       shell: bash
       run: |
-        docker run -d --hostname my-rabbit --name some-rabbit micdenny/rabbitmq-windows
+        docker compose up
 
     - name: Check RabbitMQ status
       run: |
