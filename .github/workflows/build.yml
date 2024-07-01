@@ -67,7 +67,9 @@ jobs:
         repository: 'python-microservice-cleware-switch'
         
     - name: Start all services
+      shell: bash
       run: |
+        docker network create circleci_devatserv-network
         docker-compose -f "docker-compose.yml" up -d --build
         docker-compose ps
 
