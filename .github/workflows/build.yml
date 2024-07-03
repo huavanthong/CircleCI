@@ -12,7 +12,7 @@ on:
       - opened
       - synchronize
     branches: [ "master" ]
-    
+  
   workflow_dispatch:
      inputs:
       workflow_02:
@@ -32,6 +32,10 @@ on:
 
   workflow_call:
 
+  workflow_run:
+    workflows: ["Build Services"]
+    types:
+      - completed
 
 env:
   CURRENT_RUNNER_ID: ${{ github.run_id }}
@@ -43,7 +47,14 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Check out src
+      uses: actions/checkout@v3
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: das-gui-artifact-deb
+        path: .
 
     - name: Start all services
       shell: bash

@@ -1,29 +1,52 @@
-name: Test Docker
+name: Build Services
 
 on:
+
   push:
     branches:
-      - master
+    - master
+
+  workflow_dispatch:
 
 jobs:
-  main:
-    runs-on: windows-latest
+  devatserv-gui:
+    name: DevAtServ's GUI
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./python-microservice-base/MicroserviceBase/MicroserviceManagerGUI
     steps:
-      - name: Check WSL
-        run: wsl --update
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Win / Set WSL 2 as default
-        run: |
-          wsl --list --online
-          wsl --install -d Ubuntu
-          wsl --set-default-version 2
-          wsl --list
+      - name: Clone python-microservice-base
+        uses: GuillaumeFalourd/clone-github-repo-action@v2.3
+        with:
+          depth: 1
+          branch: 'htv3hc/feat/release-microservice-base-gui'
+          owner: 'test-fullautomation'
+          repository: 'python-microservice-base'
 
-      - name: Start Docker Desktop
+      - name: Run npm install
+        run: npm install
+
+      - name: Run npm dist
         run: |
-          Start-Service docker
-          docker version
-        shell: pwsh
-  
-      - name: Download rabbitmq
-        run: docker pull rabbitmq
+          npm run dist
+    
+      - name: Upload Ubuntu artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: das-gui-artifact-deb
+          path: ./python-microservice-base/MicroserviceBase/MicroserviceManagerGUI/dist/*.deb
+
+      - name: Upload Windows artifact
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: das-gui-artifact-exe
+          path: ./python-microservice-base/MicroserviceBase/MicroserviceManagerGUI/dist/*.exe
