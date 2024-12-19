@@ -29,11 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Run build
-      run: 
+      run: |
         - echo "Pull request from branch ${{ github.event.pull_request.head.ref }}"
         - echo "Request to merge to branch ${{ github.event.pull_request.base.ref }}"
 
-      
     - name: Test
       run: |
         echo "GitHub Repository: $GITHUB_REPOSITORY"
