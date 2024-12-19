@@ -28,18 +28,17 @@ jobs:
     if: github.event.pull_request.base.ref != 'automation/task/update-rfw-documents'
     runs-on: ubuntu-latest
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Test
       run: |
         echo "GitHub Repository: $GITHUB_REPOSITORY"
         # Lấy giá trị của GITHUB_REF
         PR_BRANCH="${{ github.ref }}"
         
-        # Trích xuất tên nhánh từ biến GITHUB_REF
+        # Extract the branch name from GITHUB_REF variable
         PR_BRANCH=${PR_BRANCH#refs/heads/}
         echo "Pull Request Branch: $PR_BRANCH"
 
-        # Lấy giá trị của nhánh tạo pull request
+        # Getting the branch from pull request
         TARGET_BRANCH="${{ github.head_ref }}"
         echo "Pull Request Branch from variable github: $TARGEt_BRANCH"
 
@@ -65,18 +64,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # - name: Install GitHub CLI
-    #   run: |
-    #     # Cài đặt GitHub CLI
-    #     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
-    #     echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
-    #     sudo apt-get update
-    #     sudo apt-get install gh
-
     - name: Wait for Pipeline Completion
       id: wait-for-pipeline
       run: |
-          # Lấy thông tin pipeline
+          # Getting info from main pipeline to wait the status
           while [[ "$(gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .status')" != "completed" ]]; do
           sleep 60  # Chờ 60 giây trước khi kiểm tra lại
           done
@@ -84,44 +75,44 @@ jobs:
     - name: Get Pipeline Result
       id: pipeline
       run: |
-        # Lấy thông tin pipeline
+        # Getting info from main pipeline to get the result
         gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .conclusion' > pipeline_status.txt
         gh api repos/huavanthong/microservice-golang/actions/runs --jq '.workflow_runs | sort_by(.created_at) | last | .url' > pipeline_link.txt
 
     - name: Check Pipeline Status
       run: |
-        # Đọc kết quả pipeline từ file
+        # Show off the result
         pipeline_status=$(cat pipeline_status.txt)
         pipeline_link=$(cat pipeline_link.txt)
 
-        # Kiểm tra kết quả pipeline và báo cáo
+        # Check the result and report
         if [[ "$pipeline_status" == "success" ]]; then
-        echo "Pipeline RobotFramework AIO success."
+          echo "Pipeline RobotFramework AIO success."
         else
-        echo "Pipeline is not succeed."
-        echo "Pipeline link: $pipeline_link"
-        # Thực hiện các hành động bạn muốn nếu pipeline chưa hoàn thành
-        exit 1
+          echo "Pipeline is not succeed."
+          echo "Pipeline link: $pipeline_link"
+          # TODO: any next action
+          exit 1
         fi
 
     - name: Update artifacts on repos microservice
       run: |
-        # Đảm bảo bạn đã tạo một personal access token có quyền truy cập vào repository A và lưu nó trong secrets của repository B.
+        # Make sure a PAT for accessing to repos
         REPO_A_TOKEN="${{ secrets.ACTIONS_KEY }}"
     
-        # Đặt tên của artifacts mà bạn muốn tải lên
+        # Artifact name
         ARTIFACT_NAME="your-artifact-name"
     
-        # Tạo một release và lấy ID của release này
+        # Create a release
         RELEASE_ID=$(curl -X POST \
         -H "Authorization: token $REPO_A_TOKEN" \
         -H "Accept: application/vnd.github.v3+json" \
         "https://api.github.com/repos/owner/repoA/releases" | jq -r .id)
     
-        # Tạo một upload URL cho artifacts trong release
+        # Upload url in relase
         UPLOAD_URL="https://uploads.github.com/repos/huavanthong/microservice-golang/releases/$RELEASE_ID/assets?name=$ARTIFACT_NAME.zip"
     
-        # Tải lên artifacts từ repository B vào repository A
+        # Upload artifacts from repository B to repository A
         curl -X POST \
         -H "Authorization: token $REPO_A_TOKEN" \
         -H "Content-Type: application/zip" \
