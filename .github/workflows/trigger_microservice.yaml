@@ -28,6 +28,9 @@ jobs:
     if: github.event.pull_request.base.ref != 'automation/task/update-rfw-documents'
     runs-on: ubuntu-latest
     steps:
+    - name: Run Build
+      run: echo "Building project for branch ${{ github.event.pull_request.base.ref }}"
+      
     - name: Test
       run: |
         echo "GitHub Repository: $GITHUB_REPOSITORY"
