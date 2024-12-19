@@ -1,4 +1,5 @@
-Example project to get the hang of the Go language, Docker containers, continuous integration with CircleCI.
+# Introduction
+This is a project to get the hang of the Go language, Docker containers, continuous integration with CircleCI.
 
 This is built on Ubuntu Xenial (16.04). On Windows/Mac some tweaks probably needed.
 
@@ -19,6 +20,7 @@ https://github.com/halla/golang-docker-circleci-example
 * CircleCI integration  
 * Production deployment  
 * Contiuous deployment  
+* Automated branch in workflow
 
 ## More Todo
 * Use a goroutine  
